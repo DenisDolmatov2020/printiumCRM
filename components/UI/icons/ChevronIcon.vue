@@ -1,0 +1,18 @@
+<script setup lang="ts">
+defineProps({
+  isActive: {
+    type: Boolean,
+    default: false
+  }
+})
+</script>
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M12 6.66669L8.4714 10.1953C8.21106 10.4556 7.78894 10.4556 7.5286 10.1953L4 6.66669" :stroke="isActive ? '#4285F4' : '#8E94A0'" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</template>
+
+<style scoped lang="scss">
+
+</style>

@@ -1,0 +1,116 @@
+// COLORS //
+
+.bg-blue-medium {
+  background: var(--Main-Blue-Medium, #89ADF2);
+}
+
+.bg-warning {
+  background: #F0D589;
+}
+
+.bg-error {
+  background: #EAA6A0;
+}
+
+.bg-grey {
+  background: var(--Grey-Icon, #BABABA);
+}
+
+// elementUI styles
+.el-button__outline {
+  border: 1px solid var(--Main-Blue-Medium, #89ADF2) !important;
+  color: var(--Text-Dark, #11151C) !important;
+  font-family: Inter !important;
+  font-weight: 500 !important;
+}
+// END elementUI styles
+
+
+
+
+body, a, * {
+  font-family: Inter;
+  text-decoration: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.nowrap {
+  flex-wrap: nowrap;
+}
+
+.m-auto {
+  margin: 0 auto;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
+.mb-12 {
+  margin-bottom: 12px;
+}
+.mt-12 {
+  margin-top: 12px;
+}
+
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.mt-32 {
+  margin-top: 32px;
+}
+
+.gap-8 {
+  gap: 8px;
+}
+.gap-12 {
+   gap: 12px;
+ }
+
+.gap-15 {
+  gap: 15px;
+}
+
+
+
+
+input[type="checkbox"],
+.checkbox-input {
+  width: 16px;
+  height: 16px;
+}

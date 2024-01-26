@@ -1,0 +1,15 @@
+<script setup lang="ts">
+
+</script>
+
+<template>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="Essentials/close cross">
+      <path id="Icon" d="M15 5L5 15M15 15L5 5.00001" stroke="#8E94A0" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </svg>
+</template>
+
+<style scoped lang="scss">
+
+</style>
