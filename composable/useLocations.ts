@@ -1,10 +1,5 @@
-import {useAuthUser} from "~/composable/useAuthUser";
-import { getCookie } from 'cookie-universal-nuxt';
-
 export const useLocations = () => {
     const config = useRuntimeConfig()
-
-    const authUser = useAuthUser();
 
     const getLocations = async () => {
         try {
@@ -27,37 +22,6 @@ export const useLocations = () => {
             console.error('Error fetching locations:', error);
             throw error;
         }
-    };
-
-    const logout = async () => {
-        const data = await $fetch("/auth/logout", {
-            method: "POST",
-        });
-
-        // setUser(data.user);
-    };
-
-    const me = async () => {
-        if (!authUser.value) {
-            try {
-                const data = await $fetch("/auth/me", {
-                    headers: useRequestHeaders(["cookie"]) as HeadersInit,
-                });
-
-                // setUser(data.user);
-            } catch (error) {
-                // setCookie(null);
-            }
-        }
-
-        return authUser;
-    };
-
-    // Функция для получения CSRF токена из куки
-    const getCSRFToken = () => {
-        // @ts-ignore
-        const csrftoken = document.cookie.split(';').find(cookie => cookie.trim().startsWith('csrftoken=')).split('=')[1];
-        return csrftoken;
     };
 
     return {

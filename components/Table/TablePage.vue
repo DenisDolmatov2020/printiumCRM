@@ -34,21 +34,21 @@ const handleSelectionChange = val => {
   >
     <el-table-column type="selection" />
     <el-table-column prop="id" label="№" width="50" cell />
-    <el-table-column prop="name" label="Модель" />
-    <el-table-column prop="location.name" label="Локация" />
+    <el-table-column prop="lk_model_name" label="Модель" />
+    <el-table-column prop="lk_location" label="Локация" width="120" />
     <el-table-column label="Стоимость">
-      <el-table-column prop="black_cost" label="Черно-Белая" width="120" />
-      <el-table-column prop="color_cost" label="Цветная" width="100" />
+      <el-table-column prop="black_cost" label="ЧБ" width="100" />
+      <el-table-column prop="color_cost" label="Цв." width="100" />
       <el-table-column prop="total_cost" label="Всего" width="100" />
     </el-table-column>
 
     <el-table-column prop="counter" label="Счетчик">
-      <el-table-column prop="date_created" label="Начало" width="120" />
-      <el-table-column prop="date_updated" label="Конец" width="120" />
+      <el-table-column prop="date_start" label="Начало" width="120" />
+      <el-table-column prop="date_end" label="Конец" width="120" />
     </el-table-column>
 
     <el-table-column label="Дата">
-      <el-table-column prop="last_date" label="" width="120" />
+      <el-table-column prop="lk_date_created" label="" width="120" />
       <el-table-column prop="interface" label="" width="80" />
     </el-table-column>
 

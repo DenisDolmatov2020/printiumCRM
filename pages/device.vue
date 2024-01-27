@@ -53,11 +53,44 @@ const devices = ref([])
 const devicesApi = useDevices();
 
 const getDevices = async () => {
-  const { results } = await devicesApi.getDevices({ search: searchValue.value });
-  devices.value = results;
+  const { result } = await devicesApi.getDevices({ search: searchValue.value });
+  devices.value = result;
 }
 
 getDevices();
+
+const optionsStatus = ref([
+
+])
+
+const infoStatuses = {
+  ok: {name: 'Исправны', value: false, type: 'checkbox', color: 'blue-medium'},
+  warning: {name: 'Требуют внимания', value: false, type: 'checkbox', color: 'warning'},
+  error: {name: 'Неисправны', value: false, type: 'checkbox', color: 'error'},
+  unavailable: {name: 'Нет данных', value: false, type: 'checkbox', color: 'grey'}
+}
+
+
+const checkOptionStatus = item => {
+  const updateOption = optionsStatus.value.find(option => option === item)
+  updateOption.value = !updateOption.value
+}
+
+const getStatuses = async () => {
+  const response = await devicesApi.getStatuses();
+  console.log('RES STATUS', response?.d?.statuses);
+  optionsStatus.value = Object.keys(response?.d?.statuses).map(key => {
+    const info = infoStatuses[key];
+    const id = response?.d?.statuses[key];
+    const label = key;
+    const value = false;
+    const type = 'checkbox';
+
+    return { ...info, id, label, value, type };
+  });
+}
+
+getStatuses();
 
 const optionsLocation = ref([]);
 const locationsApi = useLocations();
@@ -75,18 +108,6 @@ const checkOptionLocation = item => {
   updateOption.value = !updateOption.value;
 
   getDevices()
-}
-
-const optionsStatus = ref([
-  { name: 'Исправны', value: false, type: 'checkbox', color: 'blue-medium' },
-  { name: 'Требуют внимания', value: false, type: 'checkbox', color: 'warning' },
-  { name: 'Неисправны', value: false, type: 'checkbox', color: 'error' },
-  { name: 'Нет данных', value: false, type: 'checkbox', color: 'grey' }
-])
-
-const checkOptionStatus = item => {
-  const updateOption = optionsStatus.value.find(option => option === item)
-  updateOption.value = !updateOption.value
 }
 </script>
 
