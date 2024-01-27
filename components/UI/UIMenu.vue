@@ -94,7 +94,7 @@ const menuGroups = ref([
 <style scoped lang="scss">
 .menu {
   background: #11151C;
-  padding: 16px 20px;
+  padding: 16px 8px;
   border-radius: 10px;
   color: #ffffff;
   display: flex;
@@ -102,7 +102,7 @@ const menuGroups = ref([
   justify-content: space-between;
 
   &-group {
-    padding: 16px 0;
+    padding: 8px 0;
     margin-bottom: 16px;
     &__title {
       margin-bottom: 20px;
@@ -115,6 +115,8 @@ const menuGroups = ref([
       line-height: 20px; /* 142.857% */
       letter-spacing: 1px;
       text-transform: uppercase;
+
+      padding: 0 12px;
     }
 
     &__items {
@@ -135,6 +137,8 @@ const menuGroups = ref([
       display: flex;
       align-items: center;
       gap: 12px;
+
+      padding: 0 12px;
 
       &.active {
         cursor: default;
