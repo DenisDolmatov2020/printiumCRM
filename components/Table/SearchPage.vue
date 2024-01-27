@@ -3,7 +3,7 @@ import { Search } from '@element-plus/icons-vue'
 import SubscribePage from "~/components/Table/SubscribePage.vue";
 
 // Определение пропа с использованием v-model
-defineProps(['modelValue']);
+defineProps(['modelValue', 'isSubscribing']);
 
 </script>
 
@@ -18,8 +18,8 @@ defineProps(['modelValue']);
         @input="v => $emit('update:modelValue', v)"
     />
 
-    <div class="row gap-12">
-      <SubscribePage />
+    <div class="row">
+      <SubscribePage v-if="isSubscribing" />
 
       <el-button size="large" class="el-button__outline">Скачать Excel</el-button>
       <el-button size="large" type="primary">Сохранить отчет</el-button>

@@ -40,8 +40,16 @@ const activeOptions = computed(() => props.options.filter(v => !!v.value));
   </select>\
 
   -->
+  <div
+      v-if="isShow"
+      class="overlay"
+      @click="isShow = false"
+  >
+
+  </div>
 
     <div class="field-select">
+
       <div
         class="field-select__button row justify-between align-center gap-8"
         :class="{ active: isShow }"
@@ -50,6 +58,7 @@ const activeOptions = computed(() => props.options.filter(v => !!v.value));
         <div class="field-select__button-label">
           {{ label }}
         </div>
+
 
         <div
           v-for="option in activeOptions"
