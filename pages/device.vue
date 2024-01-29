@@ -2,7 +2,6 @@
 import SearchPage from "~/components/Table/SearchPage";
 import { h, ref, shallowRef } from "vue";
 import {useDevices} from "~/composable/useDevices";
-import {useCommon} from "~/composable/useCommon";
 import {useLocations} from "~/composable/useLocations";
 import CloseIcon from "~/components/UI/icons/CloseIcon.vue";
 import Settings from "~/components/Device/Settings.vue";
@@ -10,13 +9,12 @@ import ruRU from "element-plus/dist/locale/ru.mjs";
 
 
 definePageMeta({
-  // middleware: ["user-only"]
+  middleware: ["user-only"]
 });
 
-const commonApi = useCommon();
 
 const otherFilters = ref([]);
-
+const optionsLocation = ref([]);
 
 const formatDate = (date) => {
   if (!date) return '';
@@ -71,6 +69,7 @@ const getDevices = async (isDownload = false) => {
   const query = {
     query: searchValue.value,
     statuses: optionsStatus.value.filter(item => item.value).map(item => item.id).join(','),
+    location: optionsLocation.value?.filter(item => item.value)?.map(item => item.id)?.[0] || null,
     date_start: formatDate(dateValues?.value?.[0]),
     date_end: formatDate(dateValues?.value?.[1]),
   };
@@ -135,7 +134,6 @@ const getStatuses = async () => {
 
 getStatuses();
 
-const optionsLocation = ref([]);
 const locationsApi = useLocations();
 
 const getLocations = async () => {
@@ -240,7 +238,7 @@ const clearFilter = item => {
 
         </el-row>
 
-        <Settings :options="settings" :params="params" />
+        <Settings />
       </div>
     </client-only>
   <TablePage :items="devices" />

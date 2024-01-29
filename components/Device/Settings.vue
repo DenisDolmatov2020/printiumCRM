@@ -105,10 +105,8 @@ const isShow = ref(false);
 
 const outerVisible = ref(false);
 
-const parameters = ref([
-]);
-const params = ref([
-]);
+const parameters = ref([]);
+const params = ref([]);
 
 
 const searchValue = ref('')
@@ -118,7 +116,6 @@ const getSettings = async () => {
   const response = await commonApi.getSettings('printers');
   console.log('response settings', response.settings);
   parameters.value = response?.settings?.columns || [];
-
 
   const responseParams = await commonApi.fetchParams();
   console.log('response settings', responseParams);

@@ -32,6 +32,11 @@ const handleSelectionChange = val => {
       border
       @selection-change="handleSelectionChange"
   >
+    <el-table-column type="expand">
+      <template #default="props">
+        <DeviceInfo :info="props.row"  />
+      </template>
+    </el-table-column>
     <el-table-column type="selection" />
     <el-table-column prop="id" label="№" width="50" cell />
     <el-table-column prop="lk_model_name" label="Модель" />

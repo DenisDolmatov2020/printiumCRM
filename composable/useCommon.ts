@@ -1,8 +1,30 @@
 
 export const useCommon = () => {
-    const config = useRuntimeConfig()
+    const config = useRuntimeConfig();
 
-    const getSettings = async (section_name: string) => {
+    const getParts = async (serial: string) => {
+        let url = `${config.public.baseURL}/app/parts_printer/${serial}/`;
+
+        const opts = {
+            method: 'get',
+            credentials: 'include'
+        };
+
+        return await $fetch(url, opts);
+    };
+
+    const getParams = async (serial: string) => {
+        let url = `${config.public.baseURL}/app/get_printer_snmp_params/${serial}/`;
+
+        const opts = {
+            method: 'get',
+            credentials: 'include'
+        };
+
+        return await $fetch(url, opts);
+    };
+
+    const getSettings: any = async (section_name: string) => {
         let url = `${config.public.baseURL}/app/settingsget/?lk_section_name=${section_name}`;
 
         const opts = {
@@ -24,7 +46,7 @@ export const useCommon = () => {
         return await $fetch(url, opts);
     };
 
-    const setParams = async data => {
+    const setParams: any = async data => {
         try {
             const url = `${config.public.baseURL}/app/settingssave/`;
 
@@ -38,10 +60,6 @@ export const useCommon = () => {
             };
 
             const response = await $fetch(url, opts);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
 
             // Обработка успешного ответа, если необходимо
             const responseData = await response.json();
@@ -57,6 +75,8 @@ export const useCommon = () => {
 
 
     return {
+        getParts,
+        getParams,
         getSettings,
         fetchParams,
         setParams

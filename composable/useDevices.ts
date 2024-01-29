@@ -6,7 +6,7 @@ export const useDevices = () => {
         console.log("QUERY", query)
         let url = `${config.public.baseURL}/api/admin/report/device/`;
 
-        url += isDownload ? 'download/?name' : '?name'
+        url += isDownload ? 'download/?name' : '?name&serial&location_name&ip_address'
 
         const opts = {
             method: 'get',

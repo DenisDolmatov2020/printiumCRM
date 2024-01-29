@@ -28,7 +28,7 @@ defineProps({
         :label="option.label"
         :name="option.label"
     >
-      <component :is="option.component" />
+      <component :is="option?.component" :serial="option.info?.serial" />
     </el-tab-pane>
   </el-tabs>
 </template>

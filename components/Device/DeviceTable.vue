@@ -1,5 +1,21 @@
 <script setup lang="ts">
-
+defineProps({
+  headers: {
+    type: Array,
+    default: [
+      { label: '№', value: 'id' },
+      { label: 'Название (Тип)', value: 'name' },
+      { label: 'Парт.номер', value: 'part_number' },
+      { label: 'Оставшийся ресурс', value: 'estimated_resource' },
+      { label: 'Плановая замена', value: 'estimated_prt_replace_date' },
+      { label: 'Склад', value: 'id' },
+    ]
+  },
+  options: {
+    type: Array,
+    default: () => []
+  }
+})
 </script>
 
 <template>
@@ -56,91 +72,14 @@
     <table class="rwd-table">
       <tbody>
       <tr>
-        <th>№</th>
-        <th>Название <br /> (Тип)</th>
-        <th>Парт.номер</th>
-        <th>Оставшийся <br /> ресурс</th>
-        <th>Плановая <br /> замена</th>
-        <th>Склад</th>
+        <th v-for="h in headers" :id="h.value">
+          {{ h.label }}
+        </th>
       </tr>
-      <tr>
-        <td data-th="Supplier Code">
-          1
-        </td>
-        <td data-th="Supplier Name">
-          UPS
-        </td>
-        <td data-th="Invoice Number">
-          ASDF19218
-        </td>
-        <td data-th="Invoice Date">
-          06/25/2016
-        </td>
-        <td data-th="Due Date">
-          12/25/2016
-        </td>
-        <td data-th="Net Amount">
-          $8,322.12
-        </td>
-      </tr>
-      <tr>
-        <td data-th="Supplier Code">
-          2
-        </td>
-        <td data-th="Supplier Name">
-          UPS South Inc.
-        </td>
-        <td data-th="Invoice Number">
-          ASDF29301
-        </td>
-        <td data-th="Invoice Date">
-          6/24/2016
-        </td>
-        <td data-th="Due Date">
-          12/25/2016
-        </td>
-        <td data-th="Net Amount">
-          $3,255.49
-        </td>
-      </tr>
-      <tr>
-        <td data-th="Supplier Code">
-          BOX5599
-        </td>
-        <td data-th="Supplier Name">
-          BOX Pro West
-        </td>
-        <td data-th="Invoice Number">
-          ASDF43000
-        </td>
-        <td data-th="Invoice Date">
-          6/27/2016
-        </td>
-        <td data-th="Due Date">
-          12/25/2016
-        </td>
-        <td data-th="Net Amount">
-          $45,255.49
-        </td>
-      </tr>
-      <tr>
-        <td data-th="Supplier Code">
-          PAN9999
-        </td>
-        <td data-th="Supplier Name">
-          Pan Providers and Co.
-        </td>
-        <td data-th="Invoice Number">
-          ASDF33433
-        </td>
-        <td data-th="Invoice Date">
-          6/29/2016
-        </td>
-        <td data-th="Due Date">
-          12/25/2016
-        </td>
-        <td data-th="Net Amount">
-          $12,335.69
+
+      <tr v-for="option in options"  :key="`option_${option.id}`">
+        <td v-for="header in headers" :key="`header_${header.value}`" :data-th="header.value">
+          {{ option[header.value] }}
         </td>
       </tr>
       </tbody>
