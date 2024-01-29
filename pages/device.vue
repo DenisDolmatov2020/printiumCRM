@@ -39,11 +39,14 @@ const debounce = (callback, delay) => {
 
 watch(() => searchValue.value, () => {
   console.log('WATCH for search');
+  getDevices()
+  /*
   debounce(() => {
     // const query = searchValue.value.toLowerCase();
     getDevices()
     // searchResults.value = searchResults.value.filter(item => item.name.toLowerCase().includes(query));
   }, 1500);
+  */
 });
 
 watch(() => dateValues.value, () => {
@@ -66,6 +69,7 @@ const optionsStatus = ref([]);
 
 const getDevices = async (isDownload = false) => {
 
+  console.log('GET DEV')
   const query = {
     query: searchValue.value,
     statuses: optionsStatus.value.filter(item => item.value).map(item => item.id).join(','),
@@ -164,7 +168,7 @@ const clearFilter = item => {
 <template>
   <UIPageTitle title="Устройства" />
 
-  <UITabs class="mt-24" />
+  <UITabs :active-tab="'Все'" class="mt-24" />
     <SearchPage v-model="searchValue" @clickDownloadButton="getDevices(true)" />
 
     <client-only>
