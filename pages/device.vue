@@ -7,7 +7,6 @@ import {useLocations} from "~/composable/useLocations";
 import CloseIcon from "~/components/UI/icons/CloseIcon.vue";
 import Settings from "~/components/Device/Settings.vue";
 import ruRU from "element-plus/dist/locale/ru.mjs";
-import Chevron from "~/components/UI/icons/ChevronIcon.vue";
 
 
 definePageMeta({
@@ -18,31 +17,6 @@ const commonApi = useCommon();
 
 const otherFilters = ref([]);
 
-
-const settings = ref([]);
-const params = ref([]);
-const getSettings = async () => {
-  const response = await commonApi.getSettings('printers');
-  console.log('response settings', response.settings);
-  settings.value = response?.settings?.columns || [];
-
-
-  const responseParams = await commonApi.fetchParams();
-  console.log('response settings', responseParams);
-  params.value = responseParams;
-
-  params.value.forEach(category => {
-    if (category.children) {
-      category.children.forEach(child => {
-        child.value = child.id;
-      });
-    }
-  });
-
-  console.log('response settings', params.value);
-}
-
-getSettings();
 
 const formatDate = (date) => {
   if (!date) return '';

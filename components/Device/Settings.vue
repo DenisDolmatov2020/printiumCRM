@@ -12,7 +12,7 @@
         </div>
 
         <el-row>
-          <el-button @click="close">
+          <el-button @click="close; newParam = null; newName = ''; getSettings()">
             Сбросить
           </el-button>
           <el-button type="primary" @click="saveParams">
@@ -80,6 +80,7 @@
 
         <input
             :checked="parameter.isActive"
+            @change="toggleIsActive(parameter)"
             type="checkbox"
             class="cursor-pointer"
         />
@@ -94,6 +95,8 @@ import { ref } from "vue";
 import {Check, Close, Plus, Setting} from "@element-plus/icons-vue";
 import {useCommon} from "~/composable/useCommon";
 
+const commonApi = useCommon();
+
 // new
 const newName = ref('');
 const newParam = ref();
@@ -104,28 +107,39 @@ const outerVisible = ref(false);
 
 const parameters = ref([
 ]);
+const params = ref([
+]);
+
 
 const searchValue = ref('')
 
-const props = defineProps({
-  options: {
-    type: Array,
-    default: () => []
-  },
-  params: {
-    type: Array,
-    default: () => []
-  }
-})
 
-const defaultOptions = () => {
-  parameters.value = JSON.parse(JSON.stringify(props.options));
+const getSettings = async () => {
+  const response = await commonApi.getSettings('printers');
+  console.log('response settings', response.settings);
+  parameters.value = response?.settings?.columns || [];
+
+
+  const responseParams = await commonApi.fetchParams();
+  console.log('response settings', responseParams);
+  params.value = responseParams;
+
+  params.value.forEach(category => {
+    if (category.children) {
+      category.children.forEach(child => {
+        child.value = child.id;
+      });
+    }
+  });
+
+  console.log('response settings', params.value);
 }
 
-onMounted(() => {
-  defaultOptions()
-})
+getSettings();
 
+const toggleIsActive = (param) => {
+  param.isActive = !param.isActive;
+};
 
 
 const value = ref()
@@ -155,7 +169,10 @@ const saveParams = () => {
       columns: parameters?.value || []
     }
   })
+
+  outerVisible.value = false;
 }
+
 </script>
 
 <style lang="scss">
