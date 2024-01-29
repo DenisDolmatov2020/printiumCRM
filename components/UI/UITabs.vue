@@ -8,7 +8,11 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);
 }
 
-defineProps({
+const props = defineProps({
+  activeTab: {
+    type: String,
+    default: 'Детали'
+  },
   options: {
     type: Array,
     default: () => [
@@ -17,6 +21,10 @@ defineProps({
       { label: 'Группы', component: null }
     ]
   }
+})
+
+onMounted(() => {
+  activeName.value = props.activeTab;
 })
 </script>
 
