@@ -40,13 +40,11 @@ const activeOptions = computed(() => props.options.filter(v => !!v.value));
   </select>\
 
   -->
-  <div
-      v-if="isShow"
-      class="overlay"
-      @click="isShow = false"
-  >
-
-  </div>
+    <div
+        v-if="isShow"
+        class="overlay"
+        @click="isShow = false"
+    />
 
     <div class="field-select">
 
@@ -58,7 +56,6 @@ const activeOptions = computed(() => props.options.filter(v => !!v.value));
         <div class="field-select__button-label">
           {{ label }}
         </div>
-
 
         <div
           v-for="option in activeOptions"
@@ -172,8 +169,8 @@ const activeOptions = computed(() => props.options.filter(v => !!v.value));
     border-radius: 60px;
     margin-bottom: 4px;
     cursor: pointer;
-    padding: 2px 16px 2px;
-    height: 100%;
+    padding: 0 16px;
+    height: 44px;
 
     &-chip {
       padding: 6px 8px;

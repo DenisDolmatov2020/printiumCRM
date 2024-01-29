@@ -15,7 +15,7 @@
           <el-button @click="close">
             Сбросить
           </el-button>
-          <el-button type="primary" @click="close">
+          <el-button type="primary" @click="saveParams">
             Ok
           </el-button>
         </el-row>
@@ -33,14 +33,21 @@
           <div>
             <el-button :icon="Close" text type="danger" class="p-0" @click="isShow = false" />
 
-            <el-button :icon="Check" text type="primary" class="p-0" />
+            <el-button :icon="Check" text type="primary" class="p-0" @click="addParam" />
           </div>
 
         </div>
 
-        <el-input placeholder="Название таблицы" size="large" class="mt-12" />
+        <el-input v-model="newName" placeholder="Название таблицы" size="large" class="mt-12" />
 
-        <el-select placeholder="Выберете параметер" size="large" class="mt-12" />
+        <el-tree-select
+            v-model="newParam"
+            :data="params.map(p => { return { ...p, value: p.id }})"
+            :render-after-expand="false"
+            placeholder="Выберете параметер"
+            size="large"
+            class="mt-12"
+        />
       </template>
 
 
@@ -54,23 +61,28 @@
         </el-button>
       </div>
 
-      <el-input placeholder="Поиск по названию параметра" size="large" class="mt-12" />
+      <el-input
+          v-model="searchValue"
+          placeholder="Поиск по названию параметра"
+          size="large"
+          class="mt-12"
+      />
 
       <div
-          v-for="(parameter, index) in parameters" :key="parameter.id"
+          v-for="(parameter, index) in parameters.filter(p => p.title.includes(searchValue))"
+          :key="parameter.id"
           class="full-width row justify-between align-center list-item"
           :class="{ border: index < parameters.length - 1 }"
       >
         <div>
-          {{ parameter.label }}
+          {{ parameter.title }}
         </div>
 
-
-          <input
-              :checked="parameter.value"
-              type="checkbox"
-              class="cursor-pointer"
-          />
+        <input
+            :checked="parameter.isActive"
+            type="checkbox"
+            class="cursor-pointer"
+        />
 
       </div>
     </div>
@@ -80,16 +92,70 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import {Check, Close, Plus, Setting} from "@element-plus/icons-vue";
+import {useCommon} from "~/composable/useCommon";
+
+// new
+const newName = ref('');
+const newParam = ref();
 
 const isShow = ref(false);
 
 const outerVisible = ref(false);
 
 const parameters = ref([
-  { id: 1, label: '1', value: false },
-  { id: 1, label: '1', value: false },
-  { id: 3, label: '3', value: true },
 ]);
+
+const searchValue = ref('')
+
+const props = defineProps({
+  options: {
+    type: Array,
+    default: () => []
+  },
+  params: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const defaultOptions = () => {
+  parameters.value = JSON.parse(JSON.stringify(props.options));
+}
+
+onMounted(() => {
+  defaultOptions()
+})
+
+
+
+const value = ref()
+
+const addParam = () => {
+  parameters.value.push({
+    field: newParam.value,
+    id: 19,
+    isActive: true,
+    isNumber: true,
+    isSorted: true,
+    order: 8,
+    sort: -1,
+    title: newName.value
+  });
+
+  newName.value = '';
+  newParam.value = null;
+  isShow.value = false;
+}
+
+const saveParams = () => {
+  const api = useCommon();
+  api.setParams({
+    lk_section_name: "printers",
+    section_settings: {
+      columns: parameters?.value || []
+    }
+  })
+}
 </script>
 
 <style lang="scss">

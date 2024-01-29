@@ -1,25 +1,26 @@
-import {useAuthUser} from "~/composable/useAuthUser";
-import {includes} from "lodash-es";
 
 export const useDevices = () => {
     const config = useRuntimeConfig()
 
-    const getDevices = async (query: any) => {
+    const getDevices = async (query: any, isDownload: boolean = false) => {
+        console.log("QUERY", query)
         let url = `${config.public.baseURL}/api/admin/report/device/`;
 
-        for (const key in query) {
-            console.log('K', key);
-            // url += `?${key}=${query[key]}`
+        url += isDownload ? 'download/?name' : '?name'
+
+        const opts = {
+            method: 'get',
+            options: { responseType: 'blob' },
+            credentials: 'include'
         }
 
-        const data = await $fetch(url, {
-            credentials: 'include'
-        });
+        for (const key in query) {
+            console.log('KEY', key)
+            if (key && query[key]) url += `&${key}=${query[key]}`;
+        }
 
-        console.log("DATA DEVICES", data);
-
-        // setUser(data.d.user);
-        return data;
+        return isDownload ? await $fetch.raw(url, opts) : await $fetch(url, opts)
+        //http://localhost:8000/api/admin/report/device/?date_start=2024-01-01&date_end=2024-01-31
     };
 
     const getLocations = async () => {

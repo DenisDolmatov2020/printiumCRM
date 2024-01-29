@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
+import { Search } from "@element-plus/icons-vue";
 import SubscribePage from "~/components/Table/SubscribePage.vue";
 
 // Определение пропа с использованием v-model
 defineProps(['modelValue', 'isSubscribing']);
+const emits = defineEmits(['clickDownloadButton', 'update:modelValue'])
 
 </script>
 
 <template>
-  <div class="block row justify-between align-center">
+  <div class="block row justify-between align-center gap-15">
     <el-input
         :model-value="modelValue"
         placeholder="Поиск"
@@ -21,7 +22,13 @@ defineProps(['modelValue', 'isSubscribing']);
     <div class="row">
       <SubscribePage v-if="isSubscribing" />
 
-      <el-button size="large" class="el-button__outline">Скачать Excel</el-button>
+      <el-button
+          size="large"
+          class="el-button__outline"
+          @click.stop="emits('clickDownloadButton')"
+      >
+        Скачать Excel
+      </el-button>
       <el-button size="large" type="primary">Сохранить отчет</el-button>
     </div>
   </div>

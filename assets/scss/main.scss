@@ -26,8 +26,6 @@
 // END elementUI styles
 
 
-
-
 body, a, * {
   font-family: Inter;
   text-decoration: none;
@@ -40,6 +38,10 @@ body, a, * {
   bottom: 0;
   right: 0;
   z-index: 100;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
 }
 
 .cursor-pointer {
@@ -115,7 +117,10 @@ body, a, * {
   gap: 15px;
 }
 
-
+.font-22 {
+  font-size: 22px;
+  font-weight: 600;
+}
 
 
 input[type="checkbox"],

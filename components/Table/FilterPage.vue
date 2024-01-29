@@ -21,9 +21,7 @@ const props = defineProps({
           Фильтр 1
         </UISelect>
 
-        <el-date-picker>
-
-        </el-date-picker>
+        <el-date-picker />
       </el-row>
 
       <el-row :gutter="15">
