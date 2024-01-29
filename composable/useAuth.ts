@@ -16,18 +16,30 @@ export const useAuth = () => {
 
     const login = async (email: string, password: string) => {
         const data: any = await $fetch(`${config.public.baseURL}/app/login/`, {
-            method: "POST",
+            method: 'POST',
             body: {
                 uname: email,
                 upass: password
             },
+
+            mode: 'cors',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
         });
+
+
 
         console.log('DATA USER', data);
         setUser(data.d.user);
 
         const cookie = useCookie('cookie');
         cookie.value = data?.d?.user?.key;
+
+        const id = useCookie('monitoring_session_id');
+        id.value = data?.d?.user?.key;
 
         return authUser;
     };
