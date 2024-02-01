@@ -1,6 +1,7 @@
-<script lang="ts" setup>
+<script setup>
 import {useAuth} from "~/composable/useAuth";
-import {ArrowLeft, Edit} from "@element-plus/icons-vue";
+import {ArrowLeft, Check, Warning} from "@element-plus/icons-vue";
+import { ElNotification } from "element-plus";
 
 definePageMeta({
   middleware: ["guest-only"],
@@ -11,7 +12,7 @@ const { login } = useAuth();
 
 const form = reactive({
   data: {
-    email: "denispoliarush@icloud.com",
+    email: "ddd@ddd.com",
     password: "DenVik37"
   },
   error: "",
@@ -25,13 +26,27 @@ async function onLoginClick() {
     form.error = "";
     form.pending = true;
 
-    await login(form.data.email, form.data.password);
+    const response = await login(form.data.email, form.data.password);
 
+    ElNotification({
+      message: 'Вход выполнен',
+      icon: Check,
+      customClass: 'success',
+      offset: 20,
+      duration: 6500
+    })
     const redirect = '/'; //  isAdmin.value ? "/admin" : "/private";
     await navigateTo(redirect);
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
 
+    ElNotification({
+      message: error.data?.detail || error.data,
+      icon: Warning,
+      customClass: 'error',
+      offset: 20,
+      duration: 6500
+    })
     if (error.data.message) form.error = error.data.message;
   } finally {
     form.pending = false;
@@ -86,7 +101,9 @@ async function onLoginClick() {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
+
+
 .modal {
   width: 312px;
   padding-top: 5vw;

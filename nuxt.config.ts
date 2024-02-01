@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
+  app: {
+    baseURL: '/', // Замените на путь вашего репозитория
+    // buildAssetsDir: 'assets', // Не используйте "_" в начале имени папки, чтобы избежать конфликтов с .nojekyll
+  },
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL || 'http://localhost:8000',

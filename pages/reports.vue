@@ -3,7 +3,6 @@ import SearchPage from "~/components/Table/SearchPage.vue";
 import FilterPage from "~/components/Table/FilterPage.vue";
 
 const haveClick = () => {
-  console.log('HAVE')
 }
 </script>
 
