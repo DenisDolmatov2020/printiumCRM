@@ -2,8 +2,8 @@
 
 export default defineNuxtConfig({
   app: {
-    baseURL: '/', // Замените на путь вашего репозитория
-    // buildAssetsDir: 'assets', // Не используйте "_" в начале имени папки, чтобы избежать конфликтов с .nojekyll
+    baseURL: '/printumCRM/', // Замените на путь вашего репозитория
+    buildAssetsDir: 'assets', // Не используйте "_" в начале имени папки, чтобы избежать конфликтов с .nojekyll
   },
   runtimeConfig: {
     public: {
