@@ -1,0 +1,1 @@
+import{bl as e,M as o}from"./entry.Tqj8lCA3.js";import{u as t}from"./useAdmin.s2nKLbtf.js";import"./useAuthUser.z1Xl-Uq0.js";const m=e(async()=>{const a=t();if(!(a!=null&&a.value))return o({name:"login"})});export{m as default};
