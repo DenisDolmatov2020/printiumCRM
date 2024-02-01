@@ -16,6 +16,41 @@
   background: var(--Grey-Icon, #BABABA);
 }
 
+// Notifications
+.el-notification {
+  min-width: 370px;
+  border-radius: 4px;
+
+  .el-notification__closeBtn {
+    margin-top: -5px;
+  }
+
+  &.success {
+    background: var(--Light-Green, #E7FDED);
+
+    .el-notification__content {
+      color: var(--System-Green, #34A853);
+    }
+    svg {
+      color: #34A853;
+    }
+  }
+
+  &.error {
+    background: var(--Light-Red, #FFE4E2);
+
+    .el-notification__content {
+      color: var(--System-Red, #EA4335);
+    }
+    svg {
+      color: #EA4335;
+    }
+  }
+
+}
+
+//
+
 // elementUI styles
 .el-button__outline {
   border: 1px solid var(--Main-Blue-Medium, #89ADF2) !important;
@@ -80,6 +115,10 @@ body, a, * {
 
 .p-0 {
   padding: 0 !important;
+}
+
+.px-12 {
+  padding: 0 12px !important;
 }
 
 .mb-12 {

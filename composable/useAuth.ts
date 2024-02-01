@@ -30,9 +30,6 @@ export const useAuth = () => {
             credentials: 'include'
         });
 
-
-
-        console.log('DATA USER', data);
         setUser(data.d.user);
 
         const cookie = useCookie('cookie');

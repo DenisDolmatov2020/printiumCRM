@@ -2,6 +2,8 @@
 import { ref } from "vue";
 import Chevron from "~/components/UI/icons/ChevronIcon.vue";
 
+defineEmits(['check']);
+
 const isShow = ref(false);
 
 
@@ -20,26 +22,26 @@ const props = defineProps({
   }
 });
 
-const activeOptions = computed(() => props.options.filter(v => !!v.value));
+function getActiveOptionsRecursive(options) {
+  let result = [];
+
+  options.forEach(option => {
+    if (option.value) {
+      // Если родитель активен, не добавляем дочерние элементы
+      result.push(option);
+    } else if (option.children && option.children.length > 0) {
+      const children = getActiveOptionsRecursive(option.children);
+      result = result.concat(children);
+    }
+  });
+
+  return result;
+}
+
+const activeOptions = computed(() => getActiveOptionsRecursive(props.options));
 </script>
 
 <template>
-  <!--
-  <select
-      v-model="value"
-      class="m-2 select"
-  >
-    <option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-    >
-      {{ item.label }}
-    </option>
-  </select>\
-
-  -->
     <div
         v-if="isShow"
         class="overlay"
@@ -81,29 +83,57 @@ const activeOptions = computed(() => props.options.filter(v => !!v.value));
           v-for="item in options"
           :key="item.value"
         >
-          <fieldset
-            v-if="item.type === 'checkbox'"
-            class="field-select__options-item row justify-between align-center cursor-pointer"
-            @click="$emit('check', item)"
-          >
-            <div class="row nowrap align-center gap-8">
-              <div
-                v-if="item?.color"
-                :class="`bg-${item?.color}`"
-                style="width: 12px; height: 12px; border-radius: 20px"
+          <template v-if="item.type === 'checkbox'">
+            <fieldset
+                class="field-select__options-item row justify-between align-center cursor-pointer"
+                @click="$emit('check', item)"
+            >
+              <div class="row nowrap align-center gap-8">
+                <div
+                    v-if="item?.color"
+                    :class="`bg-${item?.color}`"
+                    style="width: 12px; height: 12px; border-radius: 20px"
+                />
+
+                <span>
+                  {{ item.name }}
+                </span>
+              </div>
+
+              <input
+                  :checked="item.value"
+                  type="checkbox"
+                  class="cursor-pointer checkbox-input"
               />
+            </fieldset>
+            <fieldset
+                v-for="child in item.children"
+                :key="`child_item_${child.id}`"
+                class="field-select__options-item row justify-between align-center cursor-pointer"
+                @click="$emit('check', child)"
+            >
+              <div class="row nowrap align-center gap-8">
+                <img src="assets/icons/enter-icon.svg" alt="Иконка стрелки" />
+                <div
+                    v-if="item?.color"
+                    :class="`bg-${item?.color}`"
+                    style="width: 12px; height: 12px; border-radius: 20px"
+                />
 
-              <span>
-                {{ item.name }}
-              </span>
-            </div>
+                <span class="field-select__child">
+                  {{ child.name }}
+                </span>
+              </div>
 
-            <input
-              :checked="item.value"
-              type="checkbox"
-              class="cursor-pointer checkbox-input"
-            />
-          </fieldset>
+              <input
+                  :checked="child.value"
+                  type="checkbox"
+                  class="cursor-pointer checkbox-input"
+              />
+            </fieldset>
+          </template>
+
+
 
           <fieldset
               v-else
@@ -135,6 +165,18 @@ const activeOptions = computed(() => props.options.filter(v => !!v.value));
   font-style: normal;
   font-weight: 400;
   line-height: 15px;
+
+  &__child {
+    color: var(--Text-Light, #8E94A0);
+
+    /* Main Text T1 */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 128.571% */
+  }
+
   &__options {
     padding: 16px 0;
     border-radius: 8px;
@@ -150,7 +192,7 @@ const activeOptions = computed(() => props.options.filter(v => !!v.value));
       color: var(--Text-Dark, #11151C);
       font-family: Inter;
       font-size: 14px;
-      padding: 16px;
+      padding: 8px 16px;
       color: var(--Text-Dark, #11151C);
       font-style: normal;
       font-weight: 400;

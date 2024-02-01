@@ -3,6 +3,8 @@ import FilterIcon from "~/components/UI/icons/FilterIcon.vue";
 import {Search} from "@element-plus/icons-vue";
 import ChevronIcon from "~/components/UI/icons/ChevronIcon.vue";
 
+defineEmits(['apply-filters']);
+
 const isShow = ref(false);
 
 const searchValue = ref('');
@@ -258,7 +260,7 @@ initFilters()
     border-radius: 8px;
     background: #FFF;
     box-shadow: 0 4px 24px 0 #D1D7E2;
-    left: -150px;
+    left: 0;
     width: 399px;
     height: 620px;
     max-height: 80vh;

@@ -33,19 +33,22 @@ defineProps({
             {{ info.serial }}
           </span>
         </div>
-        <div class="row gap-8">
+        <div
+            v-if="info?.inventory_number"
+            class="row gap-8"
+        >
           <span>
             Инвент. номер:
           </span>
           <span>
-            1232321
+            {{ info.inventory_number }}
           </span>
         </div>
 
-        <div class="left-comment">
+        <div v-if="info?.comment" class="left-comment">
           Комментарий:
           <br />
-          Бухгалтерия, заменить в апреле
+          {{ comment }}
         </div>
       </div>
     </div>
@@ -59,7 +62,7 @@ defineProps({
       />
     </div>
 
-    <div class="block-info__close-icon">
+    <div class="block-info__close-icon" @click="$emit('close')">
       <img src="/assets/icons/close-icon.svg" alt="Иконка закрытия" />
     </div>
 

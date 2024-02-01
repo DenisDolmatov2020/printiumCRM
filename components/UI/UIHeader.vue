@@ -4,7 +4,6 @@ import {useAuthUser} from "~/composable/useAuthUser";
 const router = useRouter()
 const clickUserIcon = () => {
   const isAuth = useAuthUser()
-  console.log('isAuth', isAuth.value)
 
   if (!isAuth.value) {
     router.push('/login')

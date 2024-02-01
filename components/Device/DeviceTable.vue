@@ -67,7 +67,6 @@ defineProps({
     </tbody>
   </table>
   -->
-
   <div class="container mt-32">
     <table class="rwd-table">
       <tbody>
@@ -77,9 +76,54 @@ defineProps({
         </th>
       </tr>
 
-      <tr v-for="option in options"  :key="`option_${option.id}`">
-        <td v-for="header in headers" :key="`header_${header.value}`" :data-th="header.value">
-          {{ option[header.value] }}
+      <tr v-for="(option, idx) in options"  :key="`option_${option.id}`">
+        <td v-for="(header, index) in headers" :key="`header_${header.value}`" :data-th="header.value">
+          <div
+              v-if="header.value === 'estimated_resource'"
+              class="row"
+          >
+            <div
+                class="column"
+            >
+              <div
+                  class="row justify-between estimate-resources"
+              >
+                <div>
+                  {{ Math.floor(option['estimated_resource'] / option['resource_pages']) }} %
+                </div>
+                <div>
+                  {{ option['estimated_resource'] }} / {{ option['resource_pages'] }}
+                </div>
+              </div>
+
+              <div class="range-container">
+                <div
+                    class="custom-range"
+                    :style="{ width: `${option['estimated_resource'] / option['resource_pages']}%` }"
+                />
+              </div>
+              <!-- option['estimated_resource'] / option['resource_pages'] -->
+            </div>
+
+            <div class="px-12">
+              <img
+                  v-if="option.source"
+                  src="assets/icons/menu/dns-icon.svg"
+                  alt="Иконка ДНС"
+              />
+              <img
+                  v-else
+                  src="assets/icons/menu/printer-icon.svg"
+                  alt="Иконка принтера"
+              />
+            </div>
+          </div>
+
+
+          <span v-else>
+            {{ !index ? idx + 1 : option[header.value] }}
+          </span>
+
         </td>
       </tr>
       </tbody>
@@ -88,6 +132,16 @@ defineProps({
 </template>
 
 <style scoped lang="scss">
+.estimate-resources {
+  width: 130px;
+  color: var(--Text-Light, #8E94A0);
+  /* Main Text T2 */
+  font-family: Inter;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+}
 /*
 table {
   // width: 100%;
@@ -127,11 +181,20 @@ table td {
   overflow: auto;
   border-radius: 4px 4px 0 0;
   border: 1px solid var(--Main-Blue-Light, #A8C3F5);
+
+  color: var(--Text-Dark, #11151C);
+
+  /* Main Text T2 */
+  font-family: Inter;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px; /* 115.385% */
 }
 
 .rwd-table {
   min-width: 300px;
-  max-width: 100%;
+  width: 100%;
   border-collapse: collapse;
 }
 
@@ -297,4 +360,17 @@ h3:after {
     background-image: linear-gradient(left, #428bca 137px, #ebf3f9 1px, #ebf3f9 100%);
   }
 }*/
+
+.range-container {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background-color: #D9D9D9;
+  margin-top: 10px;
+}
+
+.custom-range {
+  background-color: #4285F4;
+  height: 100%;
+}
 </style>

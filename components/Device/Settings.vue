@@ -1,5 +1,11 @@
 <template>
-  <el-button type="info" :icon="Setting" circle plain class="button-icon" @click="outerVisible = true" />
+  <el-button
+    type="info"
+    :icon="Setting"
+    circle plain
+    class="button-icon"
+    @click="outerVisible = true"
+  />
 
   <el-dialog v-model="outerVisible" width="400" :show-close="false">
     <template #header="{ close, titleId, titleClass }">
@@ -12,10 +18,10 @@
         </div>
 
         <el-row>
-          <el-button @click="close; newParam = null; newName = ''; getSettings()">
+          <el-button @click="newParam = null; newName = ''; emit('get-settings')">
             Сбросить
           </el-button>
-          <el-button type="primary" @click="saveParams">
+          <el-button type="primary" @click="saveSettings">
             Ok
           </el-button>
         </el-row>
@@ -31,9 +37,22 @@
           </div>
 
           <div>
-            <el-button :icon="Close" text type="danger" class="p-0" @click="isShow = false" />
+            <el-button
+                :icon="Close"
+                text
+                type="danger"
+                class="p-0"
+                @click="isShow = false"
+            />
 
-            <el-button :icon="Check" text type="primary" class="p-0" @click="addParam" />
+            <el-button
+                :disabled="!newName || !newParam"
+                :icon="Check"
+                text
+                type="primary"
+                class="p-0"
+                @click="addParam"
+            />
           </div>
 
         </div>
@@ -90,10 +109,19 @@
   </el-dialog>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue";
 import {Check, Close, Plus, Setting} from "@element-plus/icons-vue";
 import {useCommon} from "~/composable/useCommon";
+
+const props = defineProps({
+  parameters: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const emit = defineEmits(['add-param', 'update-settings', 'get-settings']);
 
 const commonApi = useCommon();
 
@@ -103,23 +131,13 @@ const newParam = ref();
 
 const isShow = ref(false);
 
-const outerVisible = ref(false);
-
-const parameters = ref([]);
+let outerVisible = ref(false);
 const params = ref([]);
 
+const searchValue = ref('');
 
-const searchValue = ref('')
-
-
-const getSettings = async () => {
-  const response = await commonApi.getSettings('printers');
-  console.log('response settings', response.settings);
-  parameters.value = response?.settings?.columns || [];
-
-  const responseParams = await commonApi.fetchParams();
-  console.log('response settings', responseParams);
-  params.value = responseParams;
+const getParams = async () => {
+  params.value = await commonApi.fetchParams();
 
   params.value.forEach(category => {
     if (category.children) {
@@ -128,23 +146,19 @@ const getSettings = async () => {
       });
     }
   });
-
-  console.log('response settings', params.value);
 }
-
-getSettings();
+getParams();
 
 const toggleIsActive = (param) => {
   param.isActive = !param.isActive;
 };
 
-
 const value = ref()
 
 const addParam = () => {
-  parameters.value.push({
+  emit('add-param', {
     field: newParam.value,
-    id: 19,
+    id: Math.floor(Math.random() * 1000),
     isActive: true,
     isNumber: true,
     isSorted: true,
@@ -158,16 +172,10 @@ const addParam = () => {
   isShow.value = false;
 }
 
-const saveParams = () => {
-  const api = useCommon();
-  api.setParams({
-    lk_section_name: "printers",
-    section_settings: {
-      columns: parameters?.value || []
-    }
-  })
-
+const saveSettings = () => {
   outerVisible.value = false;
+
+  emit('update-settings');
 }
 
 </script>

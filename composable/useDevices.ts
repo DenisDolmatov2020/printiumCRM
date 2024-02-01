@@ -3,10 +3,13 @@ export const useDevices = () => {
     const config = useRuntimeConfig()
 
     const getDevices = async (query: any, isDownload: boolean = false) => {
-        console.log("QUERY", query)
         let url = `${config.public.baseURL}/api/admin/report/device/`;
 
-        url += isDownload ? 'download/?name' : '?name&serial&location_name&ip_address'
+        if (isDownload) {
+            url += 'download/?';
+        } else {
+            url += '?serial'; // &location_name&ip_address&count_page_total__on_start&count_page_color__on_start&count_page_total__on_end&count_page_color__on_end&count_page_black__on_period&count_page_color__on_period&count_page_total__on_period&black_cost__on_period&color_cost__on_period&full_cost__on_period&date_updated&interface&inventory_number&overall_printer_status&device_status&alert_codes&device_errors_counter';
+        }
 
         const opts = {
             method: 'get',
@@ -15,12 +18,20 @@ export const useDevices = () => {
         }
 
         for (const key in query) {
-            console.log('KEY', key)
-            if (key && query[key]) url += `&${key}=${query[key]}`;
+            if (key && query[key]) {
+                url += `&${key}=${query[key]}`;
+            } else if (key) {
+                url += `&${key}`
+            }
         }
 
-        return isDownload ? await $fetch.raw(url, opts) : await $fetch(url, opts)
-        //http://localhost:8000/api/admin/report/device/?date_start=2024-01-01&date_end=2024-01-31
+        if (isDownload) {
+            return  await $fetch.raw(url, opts)
+        } else {
+            let response: any = await $fetch(url, opts);
+
+            return { ...response };
+        }
     };
 
     const getLocations = async () => {
@@ -32,7 +43,7 @@ export const useDevices = () => {
     const getStatuses = async () => {
         return  await $fetch(`${config.public.baseURL}/app/devices/2/statuses/`,
             {credentials: 'include',}
-                )
+        )
     };
 
     return {

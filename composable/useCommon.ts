@@ -35,7 +35,7 @@ export const useCommon = () => {
         return await $fetch(url, opts);
     };
 
-    const fetchParams = async  () => {
+    const fetchParams = async () => {
         let url = `${config.public.baseURL}/api/admin/report/device/attrs/`;
 
         const opts = {
@@ -46,7 +46,7 @@ export const useCommon = () => {
         return await $fetch(url, opts);
     };
 
-    const setParams: any = async data => {
+    const setParams: any = async (data: any) => {
         try {
             const url = `${config.public.baseURL}/app/settingssave/`;
 
@@ -59,13 +59,7 @@ export const useCommon = () => {
                 credentials: 'include',
             };
 
-            const response = await $fetch(url, opts);
-
-            // Обработка успешного ответа, если необходимо
-            const responseData = await response.json();
-            console.log(responseData);
-
-            return responseData;
+            return await $fetch(url, opts);
         } catch (error) {
             console.error('Error during POST request:', error);
             // Обработка ошибок
